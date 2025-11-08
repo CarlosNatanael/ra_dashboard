@@ -3,7 +3,7 @@ import functools
 import requests
 import datetime
 from flask import (
-    Flask, render_template, g, request, redirect, url_for, session, flash,
+    Flask, render_template, g, request, redirect, url_for, session, flash, jsonify
 )
 
 app = Flask(__name__)
@@ -89,6 +89,7 @@ def login():
             session.clear()
             session['username'] = data['User']
             session['is_admin'] = True
+            session['web_api_key'] = web_api_key
             
             flash(f'Login bem-sucedido! Bem-vindo, {data["User"]}.', 'success')
             return redirect(url_for('admin_panel'))
@@ -105,6 +106,29 @@ def logout():
     flash('Você foi deslogado.', 'success')
     return redirect(url_for('index'))
 
+# --- API INTERNA (para o JavaScript) ---
+
+@app.route('/api/get-game-name/<int:game_id>')
+@login_required
+def api_get_game_name(game_id):
+    """Pega o nome de um jogo da API do RA usando o ID."""
+    try:
+        username = session['username']
+        web_api_key = session['web_api_key']
+
+        url = f"{RA_API_URL}/API_GetGame.php?z={username}&y={web_api_key}&i={game_id}"
+        
+        response = requests.get(url)
+        response.raise_for_status()
+        data = response.json()
+        
+        if 'Title' in data:
+            return jsonify({'game_name': data['Title']})
+        else:
+            return jsonify({'error': 'Game not found'}), 404
+            
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
 @app.route('/history')
 def history():

@@ -10,7 +10,7 @@
     <h3>Adicionar Novo Pedido à Fila</h3>
     <form action="/admin/add" method="post">
         <label for="game_id">Game ID:</label>
-        <input type="number" id="game_id" name="game_id" required>
+        <input type="number" id="game_id" name="game_id" required onblur="fetchGameName()">
         
         <label for="game_name">Nome do Jogo:</label>
         <input type="text" id="game_name" name="game_name" required>
@@ -36,7 +36,11 @@
         <tbody>
             {% for item in queue %}
                 <tr>
-                    <td>{{ item['game_name'] }} ({{ item['game_id'] }})</td>
+                    <td>
+                        <a href="https://retroachievements.org/game/{{ item['game_id'] }}" target="_blank">
+                            {{ item['game_name'] }} ({{ item['game_id'] }})
+                        </a>
+                    </td>
                     <td>{{ item['developer_username'] }}</td>
                     
                     <form action="/admin/update/{{ item['id'] }}" method="post" style="margin:0;">
@@ -63,4 +67,38 @@
             {% endfor %}
         </tbody>
     </table>
+{% endblock %}
+{% block content %}
+    <script>
+        function fetchGameName() {
+            const gameIdInput = document.getElementById('game_id');
+            const gameNameInput = document.getElementById('game_name');
+            const gameId = gameIdInput.value;
+
+            if (!gameId) {
+                return;
+            }
+
+            gameNameInput.value = "Carregando...";
+
+            fetch(`/api/get-game-name/${gameId}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Jogo não encontrado ou erro de API');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.game_name) {
+                        gameNameInput.value = data.game_name;
+                    } else {
+                        gameNameInput.value = "Erro: Jogo não encontrado";
+                    }
+                })
+                .catch(error => {
+                    console.error('Erro:', error);
+                    gameNameInput.value = "Erro ao buscar";
+                });
+        }
+    </script>
 {% endblock %}

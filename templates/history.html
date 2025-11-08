@@ -24,7 +24,11 @@
             {% else %}
                 {% for item in queue %}
                     <tr>
-                        <td>{{ item['game_name'] }} ({{ item['game_id'] }})</td>
+                        <td>
+                            <a href="https://retroachievements.org/game/{{ item['game_id'] }}" target="_blank">
+                                {{ item['game_name'] }} ({{ item['game_id'] }})
+                            </a>
+                        </td>
                         <td>{{ item['developer_username'] }}</td>
                         <td>{{ item['date_requested'] }}</td>
                         <td>{{ item['date_approved'] or 'N/A' }}</td> <td>{{ item['reviewer_username'] or '--' }}</td>
