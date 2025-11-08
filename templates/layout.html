@@ -14,15 +14,22 @@
         <div class="content-box">
             <h1>Dashboard de Revisão (Protótipo)</h1>
             <nav>
-                <a href="/">Fila de Revisão</a> |
-                <a href="/history">Histórico</a> 
-                
-                
-                {% if session['username'] %}
-                     <span>| <a href="/admin">Painel de Admin</a>| Logado como: {{ session['username'] }} (<a href="/logout">Logout</a>)</span>
-                {% else %}
-                    | <a href="/login">Login de Admin</a>
-                {% endif %}
+                <ul>
+                    <li><a href="/">Fila de Revisão</a></li>
+                    <li><a href="/history">Histórico</a></li>
+                    <li><a href="/status">O que é Status?</a></li>
+                    
+                    {% if session['username'] %}
+                        <li><a href="/admin">Painel de Admin</a></li>
+                        <li class="nav-right">
+                            <span>Logado como: {{ session['username'] }} (<a href="/logout">Logout</a>)</span>
+                        </li>
+                    {% else %}
+                        <li class="nav-right">
+                            <a href="/login">Login de Admin</a>
+                        </li>
+                    {% endif %}
+                </ul>
             </nav>
         </div>
 

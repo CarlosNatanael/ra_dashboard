@@ -81,14 +81,14 @@ a.button {
     display: inline-block;
 }
 a.button.delete {
-    background-color: #d9534f; /* Vermelho para deletar */
+    background-color: #d9534f;
 }
 button:hover,
 a.button:hover {
     opacity: 0.8;
 }
 
-/* Mensagens Flash (Erro/Sucesso) */
+
 .flashes {
     list-style-type: none;
     padding: 0;
@@ -108,4 +108,46 @@ a.button:hover {
     background-color: #f2dede;
     color: #a94442;
     border: 1px solid #ebccd1;
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+    border-radius: 5px;
+}
+
+nav li {
+    float: left;
+}
+
+nav li a {
+    display: block; 
+    color: #f2f2f2; 
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+nav li a:hover {
+    background-color: #111;
+    text-decoration: none;
+}
+
+nav li.nav-right {
+    float: right;
+    padding: 14px 16px; 
+    color: #adb5bd;
+}
+
+nav li.nav-right a {
+    display: inline;
+    padding: 0;
+    color: #3399ff;
+}
+nav li.nav-right a:hover {
+    background-color: transparent;
+    text-decoration: underline;
 }

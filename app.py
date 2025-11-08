@@ -140,6 +140,37 @@ def history():
     
     return render_template('history.html', queue=queue_items)
 
+@app.route('/status')
+def status_page():
+    """Mostra a página estática que explica os status."""
+    return render_template('status.html')
+
+@app.route('/api/update-queue')
+def api_update_queue():
+    """Retorna APENAS o HTML do corpo da tabela da fila."""
+
+    search_term = request.args.get('search', '')
+    my_sets_filter = request.args.get('my_sets', '')
+    
+    db = get_db()
+
+    query = "SELECT * FROM review_queue WHERE status != 'Approved'"
+    params = []
+    
+    if search_term:
+        query += " AND (game_name LIKE ? OR developer_username LIKE ?)"
+        params.extend([f"%{search_term}%", f"%{search_term}%"])
+        
+    if my_sets_filter:
+        query += " AND developer_username = ?"
+        params.append(my_sets_filter)
+        
+    query += " ORDER BY date_requested ASC"
+    
+    queue_items = db.execute(query, params).fetchall()
+    
+    return render_template('_queue_table.html', queue=queue_items)
+
 # --- Rotas do Site Público ---
 
 @app.route('/')
