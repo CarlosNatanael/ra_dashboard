@@ -158,3 +158,62 @@ nav li.nav-right select {
     font-family: Arial, sans-serif;
     font-size: 0.9em;
 }
+
+/* --- ESTILOS RESPONSIVOS --- */
+/* Aplica estes estilos se a tela tiver 768px de largura ou menos */
+@media (max-width: 768px) {
+    
+    body {
+        padding: 5px; /* Menos espaço nas laterais */
+    }
+    
+    .container {
+        padding: 10px;
+        margin: 0;
+    }
+
+    /* Faz a navegação empilhar verticalmente */
+    nav li,
+    nav li.nav-right {
+        float: none; /* Remove a flutuação */
+        display: block; /* Garante que ocupem a linha toda */
+        width: auto;
+        text-align: left; /* Alinha o texto à esquerda */
+    }
+
+    nav li.nav-right {
+         padding: 14px 16px; /* Mantém o padding original */
+    }
+
+    /* Permite que as tabelas rolem na horizontal */
+    .content-box {
+        overflow-x: auto;
+    }
+    
+    table {
+        white-space: nowrap; /* Impede que o texto da tabela quebre */
+    }
+
+    /* Faz inputs e botões ocuparem 100% da largura */
+    input[type="text"],
+    input[type="number"],
+    input[type="password"],
+    select,
+    button,
+    a.button {
+        width: 100%; 
+        box-sizing: border-box; /* Faz o padding ser incluído na largura */
+        margin-bottom: 10px;
+        margin-right: 0; /* Remove margem lateral */
+    }
+
+    /* Sobrescreve o style inline do input de API key */
+    input[name="web_api_key"] {
+        width: 100% !important; 
+    }
+
+    form label {
+        display: block; /* Faz os labels ficarem acima dos inputs */
+        margin-bottom: 5px;
+    }
+}
