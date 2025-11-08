@@ -5,24 +5,28 @@ import datetime
 from flask import (
     Flask, render_template, g, request, redirect, url_for, session, flash, jsonify
 )
-from flask_babel import Babel
+from flask_babel import Babel, _
 
 app = Flask(__name__)
 DATABASE = 'database.db'
 app.config['SECRET_KEY'] = 'Oy6GOQ5nOO3l8H3TkvFMw2QABo7Kw1Mn'
 RA_API_URL = "https://retroachievements.org/API"
 
-# --- CONFIGURAÇÃO DO BABEL ---
 app.config['LANGUAGES'] = ['en', 'pt_BR', 'es']
 app.config['BABEL_DEFAULT_LOCALE'] = 'en'
-babel = Babel(app)
 
-@app.localeselector 
 def get_locale():
     """Detecta o idioma do usuário."""
     if 'lang' in session and session['lang'] in app.config['LANGUAGES']:
         return session['lang']
     return request.accept_languages.best_match(app.config['LANGUAGES'])
+
+babel = Babel(app, locale_selector=get_locale)
+
+@app.context_processor
+def inject_gettext():
+    """Disponibiliza a função de tradução _() para todos os templates."""
+    return dict(_=_)
 
 # --- Gerenciamento do Banco de Dados ---
 

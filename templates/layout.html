@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
+<html lang="en"> <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}RA Dashboard{% endblock %}</title>
@@ -8,39 +7,23 @@
     <link rel="icon" href="{{ url_for('static', filename='favicon.png') }}" type="image/png">
 </head>
 <body>
-
     <div class="container">
-
         <div class="content-box">
-            <h1>Dashboard de Revisão (Protótipo)</h1>
+            <h1>Review Dashboard (Prototype)</h1>
             <nav>
                 <ul>
-                    <li><a href="/">Fila de Revisão</a></li>
-                    <li><a href="/history">Histórico</a></li>
-                    <li><a href="/status">O que é Status?</a></li>
+                    <li><a href="/">Review Queue</a></li>
+                    <li><a href="/history">History</a></li>
+                    <li><a href="/status">Status Meaning?</a></li>
                     
                     {% if session['username'] %}
-                        <li><a href="/admin">Painel de Admin</a></li>
+                        <li><a href="/admin">Admin Panel</a></li>
                         <li class="nav-right">
-                            <select id="lang_selector" onchange="changeLanguage()">
-                                <option value="en" {% if session.get('lang') == 'en' %}selected{% endif %}>English</option>
-                                <option value="pt_BR" {% if session.get('lang') == 'pt_BR' %}selected{% endif %}>Português</option>
-                                <option value="es" {% if session.get('lang') == 'es' %}selected{% endif %}>Español</option>
-                            </select>
-                        </li>
-                        <li class="nav-right">
-                            <span>Logado como: {{ session['username'] }} (<a href="/logout">Logout</a>)</span>
+                            <span>Logged in as: {{ session['username'] }} (<a href="/logout">Logout</a>)</span>
                         </li>
                     {% else %}
                         <li class="nav-right">
-                            <select id="lang_selector" onchange="changeLanguage()">
-                                <option value="en" {% if session.get('lang') == 'en' %}selected{% endif %}>English</option>
-                                <option value="pt_BR" {% if session.get('lang') == 'pt_BR' %}selected{% endif %}>Português</option>
-                                <option value="es" {% if session.get('lang') == 'es' %}selected{% endif %}>Español</option>
-                            </select>
-                        </li>
-                        <li class="nav-right">
-                            <a href="/login">Login de Admin</a>
+                            <a href="/login">Admin Login</a>
                         </li>
                     {% endif %}
                 </ul>
@@ -63,11 +46,5 @@
             </main>
         </div>
     </div> 
-    <script>
-        function changeLanguage() {
-            var lang = document.getElementById('lang_selector').value;
-            window.location.href = '/set_lang/' + lang;
-        }
-    </script>
-</body>
+    </body>
 </html>

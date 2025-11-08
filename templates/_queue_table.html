@@ -1,26 +1,26 @@
 {% if not queue %}
-                <tr>
-                    <td colspan="6" style="text-align: center;">A fila de revisão está vazia (ou seu filtro não encontrou nada).</td>
-                </tr>
-            {% else %}
-                {% for item in queue %}
-                    <tr>
-                        <td>
-                            <a href="https://retroachievements.org/game/{{ item['game_id'] }}" target="_blank">
-                                {{ item['game_name'] }} ({{ item['game_id'] }})
-                            </a>
-                        </td>
-                        <td><a href="https://retroachievements.org/user/{{ item['developer_username'] }}" target="_blank">{{ item['developer_username'] }}</a></td>
-                        <td>{{ item['date_requested'] }}</td>
-                        <td>{{ item['date_last_updated'] }}</td>
-                        <td>{{ item['status'] }}</td>
-                        <td>
-                            {% if item['reviewer_username'] %}
-                                <a href="https://retroachievements.org/user/{{ item['reviewer_username'] }}" target="_blank">{{ item['reviewer_username'] }}</a>
-                            {% else %}
-                                --
-                            {% endif %}
-                        </td>
-                    </tr>
-                {% endfor %}
-            {% endif %}
+    <tr>
+        <td colspan="6" style="text-align: center;">The review queue is empty (or your filter found no results).</td>
+    </tr>
+{% else %}
+    {% for item in queue %}
+        <tr>
+            <td>
+                <a href="https://retroachievements.org/game/{{ item['game_id'] }}" target="_blank">
+                    {{ item['game_name'] }} ({{ item['game_id'] }})
+                </a>
+            </td>
+            <td><a href="https://retroachievements.org/user/{{ item['developer_username'] }}" target="_blank">{{ item['developer_username'] }}</a></td>
+            <td>{{ item['date_requested'] }}</td>
+            <td>{{ item['date_last_updated'] }}</td>
+            <td>{{ item['status'] }}</td>
+            <td>
+                {% if item['reviewer_username'] %}
+                    <a href="https://retroachievements.org/user/{{ item['reviewer_username'] }}" target="_blank">{{ item['reviewer_username'] }}</a>
+                {% else %}
+                    --
+                {% endif %}
+            </td>
+        </tr>
+    {% endfor %}
+{% endif %}

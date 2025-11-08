@@ -5,32 +5,32 @@
 {% endblock %}
 
 {% block content %}
-    <h2>Painel de Admin (Visão do Revisor)</h2>
+    <h2>Admin Panel (Reviewer View)</h2>
     
-    <h3>Adicionar Novo Pedido à Fila</h3>
+    <h3>Add New Request to Queue</h3>
     <form action="/admin/add" method="post">
         <label for="game_id">Game ID:</label>
         <input type="number" id="game_id" name="game_id" required onblur="fetchGameName()">
         
-        <label for="game_name">Nome do Jogo:</label>
+        <label for="game_name">Game Name:</label>
         <input type="text" id="game_name" name="game_name" required>
         
         <label for="developer_username">Dev (Username):</label>
         <input type="text" id="developer_username" name="developer_username" required>
         
-        <button type="submit">Adicionar à Fila</button>
+        <button type="submit">Add to Queue</button>
     </form>
     <hr>
 
-    <h3>Fila de Revisão Atual</h3>
+    <h3>Current Review Queue</h3>
     <table>
         <thead>
             <tr>
-                <th>Jogo</th>
-                <th>Desenvolvedor</th>
+                <th>Game</th>
+                <th>Junior Developer</th>
                 <th>Status</th>
-                <th>Revisor</th>
-                <th>Ações</th>
+                <th>Reviewer</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -62,9 +62,9 @@
                             </strong>
                         </td>
                         <td>
-                            <button type="submit" name="action" value="update_status">Atualizar Status</button>
-                            <button type="submit" name="action" value="claim_set">Assinar Set</button>
-                            <a href="/admin/delete/{{ item['id'] }}" class="button delete" onclick="return confirm('Tem certeza?');">Deletar</a>
+                            <button type="submit" name="action" value="update_status">Update Status</button>
+                            <button type="submit" name="action" value="claim_set">Claim Set</button>
+                            <a href="/admin/delete/{{ item['id'] }}" class="button delete" onclick="return confirm('Are you sure?');">Delete</a>
                         </td>
                     </form>
                 </tr>
@@ -82,12 +82,12 @@
                 return;
             }
 
-            gameNameInput.value = "Carregando...";
+            gameNameInput.value = "Loading...";
 
             fetch(`/api/get-game-name/${gameId}`)
                 .then(response => {
                     if (!response.ok) {
-                        throw new Error('Jogo não encontrado ou erro de API');
+                        throw new Error('Game not found or API error');
                     }
                     return response.json();
                 })
@@ -95,12 +95,12 @@
                     if (data.game_name) {
                         gameNameInput.value = data.game_name;
                     } else {
-                        gameNameInput.value = "Erro: Jogo não encontrado";
+                        gameNameInput.value = "Error: Game not found";
                     }
                 })
                 .catch(error => {
-                    console.error('Erro:', error);
-                    gameNameInput.value = "Erro ao buscar";
+                    console.error('Error:', error);
+                    gameNameInput.value = "Error fetching name";
                 });
         }
     </script>

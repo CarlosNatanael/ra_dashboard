@@ -1,25 +1,26 @@
 {% extends "layout.html" %}
 
 {% block title %}
-    Histórico de Revisões - RA Dashboard
+    Review History - RA Dashboard
 {% endblock %}
 
 {% block content %}
-    <h2>Histórico de Revisões (Sets Aprovados)</h2>
+    <h2>Review History (Approved Sets)</h2>
 
     <table>
         <thead>
             <tr>
-                <th>Jogo (ID)</th>
-                <th>Jr-Dev</th>
-                <th>Data Pedido</th>
-                <th>Data de Aprovação</th> <th>Revisor</th>
+                <th>Game (ID)</th>
+                <th>Junior Developer</th>
+                <th>Date Requested</th>
+                <th>Date Approved</th>
+                <th>Reviewer</th>
             </tr>
         </thead>
         <tbody>
             {% if not queue %}
                 <tr>
-                    <td colspan="5" style="text-align: center;">Nenhum set foi aprovado ainda.</td>
+                    <td colspan="5" style="text-align: center;">No sets have been approved yet.</td>
                 </tr>
             {% else %}
                 {% for item in queue %}
@@ -31,7 +32,7 @@
                         </td>
                         <td><a href="https://retroachievements.org/user/{{ item['developer_username'] }}" target="_blank">{{ item['developer_username'] }}</a></td>
                         <td>{{ item['date_requested'] }}</td>
-                        <td>{{ item['date_approved'] or 'N/A' }}</td> 
+                        <td>{{ item['date_approved'] or 'N/A' }}</td>
                         <td>
                             {% if item['reviewer_username'] %}
                                 <a href="https://retroachievements.org/user/{{ item['reviewer_username'] }}" target="_blank">{{ item['reviewer_username'] }}</a>

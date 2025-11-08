@@ -1,31 +1,31 @@
 {% extends "layout.html" %}
 
 {% block title %}
-    Status da Fila - RA Dashboard
+    Queue Status - RA Dashboard
 {% endblock %}
 
 {% block content %}
-    <h2>O que significa cada Status?</h2>
+    <h2>What does each Status mean?</h2>
     
-    <p>Estes são os status que um set pode ter durante o processo de revisão:</p>
+    <p>These are the statuses a set can have during the review process:</p>
     
-    <h3>Pending (Pendente)</h3>
+    <h3>Pending</h3>
     <p>
-        Este é o status padrão. O set foi enviado pelo admin e está na fila principal, aguardando um Revisor de Código (CR).
+        This is the default status. The set has been added by an admin and is in the main queue, waiting for a Code Reviewer (CR) to pick it up.
     </p>
 
-    <h3>In_Discussion (Em Discussão)</h3>
+    <h3>In_Discussion</h3>
     <p>
-        Um CR "assinou" (claimed) o seu set e está ativamente testando. O ícone de desafio (trigger) está sendo testado, a lógica está sendo verificada contra save states, e as descrições estão sendo revisadas. Fique de olho no Discord ou na página do jogo para feedback.
+        A CR has "claimed" your set and is actively testing it (peer review). Triggers, save state protection, and descriptions are being checked. Keep an eye on Discord or the game page for feedback.
     </p>
 
-    <h3>In_Review (Em Revisão Oficial)</h3>
+    <h3>In_Review</h3>
     <p>
-        O set passou pela revisão inicial (peer review) e agora está com um Revisor de Código (CR) oficial para a aprovação final. Esta é a última etapa antes da promoção.
+        The set has passed the initial peer review and is now with an official Code Reviewer (CR) for final approval. This is the last step before promotion.
     </p>
 
-    <h3>Approved (Aprovado)</h3>
+    <h3>Approved</h3>
     <p>
-        Parabéns! Seu set foi aprovado e movido para a página de <a href="/history">Histórico</a>. O próximo passo é verificar os ticket abertos e sempre solicitar revisão quando pedir para promover ou rebaixar alguma conquista.
+        Congratulations! Your achievement has been approved and moved to the <a href="/history">History</a> page. The next step is to check your open tickets and always request a review when asking to promote or demote an achievement.
     </p>
 {% endblock %}
