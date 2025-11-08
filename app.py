@@ -2,13 +2,15 @@ import sqlite3
 import functools
 import requests
 import datetime
+import os
 from flask import (
     Flask, render_template, g, request, redirect, url_for, session, flash, jsonify
 )
 from flask_babel import Babel, _
 
 app = Flask(__name__)
-DATABASE = 'database.db'
+project_dir = os.path.dirname(os.path.abspath(__file__))
+DATABASE = os.path.join(project_dir, 'database.db')
 app.config['SECRET_KEY'] = 'Oy6GOQ5nOO3l8H3TkvFMw2QABo7Kw1Mn'
 RA_API_URL = "https://retroachievements.org/API"
 

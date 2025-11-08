@@ -6,8 +6,11 @@ __pycache__/
 # C extensions
 *.so
 
-# SQL
-*.db
+# Arquivos de Banco de Dados (SQLite)
+database.db
+*.db-journal
+*.sqlite
+*.sqlite3
 
 # Distribution / packaging
 .Python
