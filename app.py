@@ -106,7 +106,7 @@ def logout():
     flash('Você foi deslogado.', 'success')
     return redirect(url_for('index'))
 
-# --- API INTERNA (para o JavaScript) ---
+# --- API INTERNA ---
 
 @app.route('/api/get-game-name/<int:game_id>')
 @login_required
@@ -140,17 +140,35 @@ def history():
     
     return render_template('history.html', queue=queue_items)
 
-# --- Rotas do Site Público (Jr. Dev View) ---
+# --- Rotas do Site Público ---
 
 @app.route('/')
 def index():
-    """Página inicial que mostra a fila."""
+    """Página inicial que mostra a fila (APENAS sets PENDENTES)."""
+    search_term = request.args.get('search', '')
+    my_sets_filter = request.args.get('my_sets', '')
+    
     db = get_db()
-    queue_items = db.execute(
-        "SELECT * FROM review_queue WHERE status != 'Approved' ORDER BY date_requested ASC"
-    ).fetchall()
-    return render_template('index.html', queue=queue_items)
-
+    
+    query = "SELECT * FROM review_queue WHERE status != 'Approved'"
+    params = []
+    
+    if search_term:
+        query += " AND (game_name LIKE ? OR developer_username LIKE ?)"
+        params.extend([f"%{search_term}%", f"%{search_term}%"])
+        
+    if my_sets_filter:
+        query += " AND developer_username = ?"
+        params.append(my_sets_filter)
+    query += " ORDER BY date_requested ASC"
+    queue_items = db.execute(query, params).fetchall()
+    
+    return render_template(
+        'index.html', 
+        queue=queue_items, 
+        search_term=search_term, 
+        my_sets_filter=my_sets_filter
+    )
 
 # --- ROTAS DO PAINEL DE ADMIN (Revisor View) ---
 
@@ -159,7 +177,7 @@ def index():
 def admin_panel():
     db = get_db()
     queue_items = db.execute(
-        'SELECT * FROM review_queue ORDER BY date_requested ASC'
+        "SELECT * FROM review_queue WHERE status != 'Approved' ORDER BY date_requested ASC"
     ).fetchall()
     return render_template('admin.html', queue=queue_items)
 

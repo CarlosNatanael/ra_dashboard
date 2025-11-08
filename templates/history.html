@@ -11,7 +11,7 @@
         <thead>
             <tr>
                 <th>Jogo (ID)</th>
-                <th>Desenvolvedor</th>
+                <th>Jr-Dev</th>
                 <th>Data Pedido</th>
                 <th>Data de Aprovação</th> <th>Revisor</th>
             </tr>
@@ -29,9 +29,16 @@
                                 {{ item['game_name'] }} ({{ item['game_id'] }})
                             </a>
                         </td>
-                        <td>{{ item['developer_username'] }}</td>
+                        <td><a href="https://retroachievements.org/user/{{ item['developer_username'] }}" target="_blank">{{ item['developer_username'] }}</a></td>
                         <td>{{ item['date_requested'] }}</td>
-                        <td>{{ item['date_approved'] or 'N/A' }}</td> <td>{{ item['reviewer_username'] or '--' }}</td>
+                        <td>{{ item['date_approved'] or 'N/A' }}</td> 
+                        <td>
+                            {% if item['reviewer_username'] %}
+                                <a href="https://retroachievements.org/user/{{ item['reviewer_username'] }}" target="_blank">{{ item['reviewer_username'] }}</a>
+                            {% else %}
+                                --
+                            {% endif %}
+                        </td>
                     </tr>
                 {% endfor %}
             {% endif %}
