@@ -1,16 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RA Jr. Dev Dashboard</title>
-</head>
-<body>
+{% extends "layout.html" %}
 
-    <h1>Dashboard de Revisão (Protótipo)</h1>
-    <h2>Fila de Revisão Global</h2>
+{% block title %}
+    Fila de Revisão - RA Dashboard
+{% endblock %}
 
-    <table border="1" style="width:100%">
+{% block content %}
+    <h2>Fila de Revisão Global (Visão do Jr. Dev)</h2>
+
+    <table>
         <thead>
             <tr>
                 <th>Jogo (ID)</th>
@@ -39,20 +36,4 @@
             {% endif %}
         </tbody>
     </table>
-    <form action="/add" method="post">
-        <h3>Pedir Revisão de Set</h3>
-        <label for="game_id">Game ID:</label>
-        <input type="number" id="game_id" name="game_id" required>
-        
-        <label for="game_name">Nome do Jogo:</label>
-        <input type="text" id="game_name" name="game_name" required>
-        
-        <label for="developer_username">Dev (Username):</label>
-        <input type="text" id="developer_username" name="developer_username" required>
-        
-        <button type="submit">Enviar Pedido</button>
-    </form>
-    <hr>
-
-</body>
-</html>
+{% endblock %}

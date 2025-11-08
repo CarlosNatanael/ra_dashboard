@@ -1,0 +1,63 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Admin - RA Dashboard
+{% endblock %}
+
+{% block content %}
+    <h2>Painel de Admin (Visão do Revisor)</h2>
+    
+    <h3>Adicionar Novo Pedido à Fila</h3>
+    <form action="/admin/add" method="post">
+        <label for="game_id">Game ID:</label>
+        <input type="number" id="game_id" name="game_id" required>
+        
+        <label for="game_name">Nome do Jogo:</label>
+        <input type="text" id="game_name" name="game_name" required>
+        
+        <label for="developer_username">Dev (Username):</label>
+        <input type="text" id="developer_username" name="developer_username" required>
+        
+        <button type="submit">Adicionar à Fila</button>
+    </form>
+    <hr>
+
+    <h3>Fila de Revisão Atual</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Jogo</th>
+                <th>Desenvolvedor</th>
+                <th>Status</th>
+                <th>Revisor</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in queue %}
+                <tr>
+                    <td>{{ item['game_name'] }} ({{ item['game_id'] }})</td>
+                    <td>{{ item['developer_username'] }}</td>
+                    
+                    <form action="/admin/update/{{ item['id'] }}" method="post" style="margin:0;">
+                        <td>
+                            <select name="status">
+                                <option value="Pending" {% if item['status'] == 'Pending' %}selected{% endif %}>Pending</option>
+                                <option value="In_Discussion" {% if item['status'] == 'In_Discussion' %}selected{% endif %}>In Discussion</option>
+                                <option value="In_Review" {% if item['status'] == 'In_Review' %}selected{% endif %}>In Review</option>
+                                <option value="Approved" {% if item['status'] == 'Approved' %}selected{% endif %}>Approved</option>
+                            </select>
+                        </td>
+                        <td>
+                            <input type="text" name="reviewer_username" value="{{ item['reviewer_username'] or '' }}" placeholder="Nome do Revisor">
+                        </td>
+                        <td>
+                            <button type="submit">Atualizar</button>
+                            <a href="/admin/delete/{{ item['id'] }}" class="button delete" onclick="return confirm('Tem certeza?');">Deletar</a>
+                        </td>
+                    </form>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}RA Dashboard{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <div class="container">
+
+        <div class="content-box">
+            <h1>Dashboard de Revisão (Protótipo)</h1>
+            <nav>
+                <a href="/">Visão do Jr. Dev</a> |
+                <a href="/admin">Painel de Admin</a>
+                
+                {% if session['username'] %}
+                    | <span>Logado como: {{ session['username'] }} (<a href="/logout">Logout</a>)</span>
+                {% else %}
+                    | <a href="/login">Login de Admin</a>
+                {% endif %}
+            </nav>
+        </div>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <ul class="flashes">
+                {% for category, message in messages %}
+                    <li class="{{ category }}">{{ message }}</li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+
+        <div class="content-box">
+            <main>
+                {% block content %}{% endblock %}
+            </main>
+        </div>
+
+    </div> </body>
+</html>
