@@ -13,11 +13,12 @@
         <div class="content-box">
             <h1>Dashboard de Revisão (Protótipo)</h1>
             <nav>
-                <a href="/">Visão do Jr. Dev</a> |
-                <a href="/admin">Painel de Admin</a>
+                <a href="/">Fila de Revisão</a> |
+                <a href="/history">Histórico</a> 
+                
                 
                 {% if session['username'] %}
-                    | <span>Logado como: {{ session['username'] }} (<a href="/logout">Logout</a>)</span>
+                     <span>| <a href="/admin">Painel de Admin</a>| Logado como: {{ session['username'] }} (<a href="/logout">Logout</a>)</span>
                 {% else %}
                     | <a href="/login">Login de Admin</a>
                 {% endif %}

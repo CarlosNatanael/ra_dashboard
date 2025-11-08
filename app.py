@@ -1,9 +1,10 @@
 import sqlite3
+import functools
+import requests
+import datetime
 from flask import (
     Flask, render_template, g, request, redirect, url_for, session, flash,
 )
-import functools
-import requests
 
 app = Flask(__name__)
 DATABASE = 'database.db'
@@ -104,6 +105,17 @@ def logout():
     flash('Você foi deslogado.', 'success')
     return redirect(url_for('index'))
 
+
+@app.route('/history')
+def history():
+    """Mostra o histórico de sets Aprovados."""
+    db = get_db()
+    queue_items = db.execute(
+        "SELECT * FROM review_queue WHERE status = 'Approved' ORDER BY date_requested DESC"
+    ).fetchall()
+    
+    return render_template('history.html', queue=queue_items)
+
 # --- Rotas do Site Público (Jr. Dev View) ---
 
 @app.route('/')
@@ -111,7 +123,7 @@ def index():
     """Página inicial que mostra a fila."""
     db = get_db()
     queue_items = db.execute(
-        'SELECT * FROM review_queue ORDER BY date_requested ASC'
+        "SELECT * FROM review_queue WHERE status != 'Approved' ORDER BY date_requested ASC"
     ).fetchall()
     return render_template('index.html', queue=queue_items)
 
@@ -130,31 +142,58 @@ def admin_panel():
 @app.route('/admin/add', methods=['POST'])
 @login_required 
 def admin_add():
+    """(Admin) Adiciona um novo pedido à fila."""
     game_id = request.form['game_id']
     game_name = request.form['game_name']
     developer_username = request.form['developer_username']
+    now_formatted = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
     
     db = get_db()
     db.execute(
-        'INSERT INTO review_queue (game_id, game_name, developer_username)'
-        ' VALUES (?, ?, ?)',
-        (game_id, game_name, developer_username)
+        'INSERT INTO review_queue (game_id, game_name, developer_username, date_requested, date_last_updated)'
+        ' VALUES (?, ?, ?, ?, ?)',
+        (game_id, game_name, developer_username, now_formatted, now_formatted)
     )
     db.commit()
+    
     return redirect(url_for('admin_panel'))
 
 @app.route('/admin/update/<int:entry_id>', methods=['POST'])
 @login_required 
 def admin_update(entry_id):
+    """(Admin) Atualiza o status e (opcionalmente) o revisor."""
+    
     status = request.form['status']
-    reviewer = request.form['reviewer_username']
+    action = request.form['action']
+    now_formatted = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
     
     db = get_db()
-    db.execute(
-        'UPDATE review_queue SET status = ?, reviewer_username = ?'
-        ' WHERE id = ?',
-        (status, reviewer, entry_id)
-    )
+    query_params = {
+        'status': status,
+        'last_updated': now_formatted,
+        'id': entry_id
+    }
+    if status == 'Approved':
+        query_params['date_approved'] = now_formatted
+    else:
+        query_params['date_approved'] = None 
+
+    if action == 'claim_set':
+        query_params['reviewer'] = session['username']
+        db.execute(
+            'UPDATE review_queue'
+            ' SET status = :status, reviewer_username = :reviewer, date_last_updated = :last_updated, date_approved = :date_approved'
+            ' WHERE id = :id',
+            query_params
+        )
+    elif action == 'update_status':
+        db.execute(
+            'UPDATE review_queue'
+            ' SET status = :status, date_last_updated = :last_updated, date_approved = :date_approved'
+            ' WHERE id = :id',
+            query_params
+        )
+    
     db.commit()
     return redirect(url_for('admin_panel'))
 

@@ -49,10 +49,13 @@
                             </select>
                         </td>
                         <td>
-                            <input type="text" name="reviewer_username" value="{{ item['reviewer_username'] or '' }}" placeholder="Nome do Revisor">
+                            <strong>{{ item['reviewer_username'] or 'N/A' }}</strong>
                         </td>
                         <td>
-                            <button type="submit">Atualizar</button>
+                            <button type="submit" name="action" value="update_status">Atualizar Status</button>
+                            
+                            <button type="submit" name="action" value="claim_set">Assinar Set</button>
+                            
                             <a href="/admin/delete/{{ item['id'] }}" class="button delete" onclick="return confirm('Tem certeza?');">Deletar</a>
                         </td>
                     </form>

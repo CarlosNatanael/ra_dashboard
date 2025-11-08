@@ -1,11 +1,11 @@
 {% extends "layout.html" %}
 
 {% block title %}
-    Fila de Revisão - RA Dashboard
+    Histórico de Revisões - RA Dashboard
 {% endblock %}
 
 {% block content %}
-    <h2>Fila de Revisão Global (Visão do Jr. Dev)</h2>
+    <h2>Histórico de Revisões (Sets Aprovados)</h2>
 
     <table>
         <thead>
@@ -13,14 +13,13 @@
                 <th>Jogo (ID)</th>
                 <th>Desenvolvedor</th>
                 <th>Data Pedido</th>
-                <th>Última Atualização</th> <th>Status</th>
-                <th>Revisor</th>
+                <th>Data de Aprovação</th> <th>Revisor</th>
             </tr>
         </thead>
         <tbody>
             {% if not queue %}
                 <tr>
-                    <td colspan="6" style="text-align: center;">A fila de revisão está vazia!</td>
+                    <td colspan="5" style="text-align: center;">Nenhum set foi aprovado ainda.</td>
                 </tr>
             {% else %}
                 {% for item in queue %}
@@ -28,8 +27,7 @@
                         <td>{{ item['game_name'] }} ({{ item['game_id'] }})</td>
                         <td>{{ item['developer_username'] }}</td>
                         <td>{{ item['date_requested'] }}</td>
-                        <td>{{ item['date_last_updated'] }}</td> <td>{{ item['status'] }}</td>
-                        <td>{{ item['reviewer_username'] or '--' }}</td>
+                        <td>{{ item['date_approved'] or 'N/A' }}</td> <td>{{ item['reviewer_username'] or '--' }}</td>
                     </tr>
                 {% endfor %}
             {% endif %}
