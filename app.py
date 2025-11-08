@@ -5,12 +5,24 @@ import datetime
 from flask import (
     Flask, render_template, g, request, redirect, url_for, session, flash, jsonify
 )
+from flask_babel import Babel
 
 app = Flask(__name__)
 DATABASE = 'database.db'
 app.config['SECRET_KEY'] = 'Oy6GOQ5nOO3l8H3TkvFMw2QABo7Kw1Mn'
-
 RA_API_URL = "https://retroachievements.org/API"
+
+# --- CONFIGURAÇÃO DO BABEL ---
+app.config['LANGUAGES'] = ['en', 'pt_BR', 'es']
+app.config['BABEL_DEFAULT_LOCALE'] = 'en'
+babel = Babel(app)
+
+@app.localeselector 
+def get_locale():
+    """Detecta o idioma do usuário."""
+    if 'lang' in session and session['lang'] in app.config['LANGUAGES']:
+        return session['lang']
+    return request.accept_languages.best_match(app.config['LANGUAGES'])
 
 # --- Gerenciamento do Banco de Dados ---
 
@@ -48,7 +60,7 @@ AUTHORIZED_ADMINS = [
     'srleo12'
 ]
 
-# --- Gerenciamento de Login e Autenticação (Corrigido) ---
+# --- Gerenciamento de Login e Autenticação ---
 
 def login_required(view):
     """Um 'decorador' que protege as páginas de admin."""
@@ -104,6 +116,16 @@ def logout():
     """Limpa a sessão e desloga o usuário."""
     session.clear()
     flash('Você foi deslogado.', 'success')
+    return redirect(url_for('index'))
+
+@app.route('/set_lang/<lang>')
+def set_lang(lang):
+    """Salva a escolha de idioma do usuário na sessão."""
+    if lang in app.config['LANGUAGES']:
+        session['lang'] = lang 
+    referrer = request.referrer
+    if referrer:
+        return redirect(referrer)
     return redirect(url_for('index'))
 
 # --- API INTERNA ---

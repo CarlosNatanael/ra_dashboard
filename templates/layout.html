@@ -22,9 +22,23 @@
                     {% if session['username'] %}
                         <li><a href="/admin">Painel de Admin</a></li>
                         <li class="nav-right">
+                            <select id="lang_selector" onchange="changeLanguage()">
+                                <option value="en" {% if session.get('lang') == 'en' %}selected{% endif %}>English</option>
+                                <option value="pt_BR" {% if session.get('lang') == 'pt_BR' %}selected{% endif %}>Português</option>
+                                <option value="es" {% if session.get('lang') == 'es' %}selected{% endif %}>Español</option>
+                            </select>
+                        </li>
+                        <li class="nav-right">
                             <span>Logado como: {{ session['username'] }} (<a href="/logout">Logout</a>)</span>
                         </li>
                     {% else %}
+                        <li class="nav-right">
+                            <select id="lang_selector" onchange="changeLanguage()">
+                                <option value="en" {% if session.get('lang') == 'en' %}selected{% endif %}>English</option>
+                                <option value="pt_BR" {% if session.get('lang') == 'pt_BR' %}selected{% endif %}>Português</option>
+                                <option value="es" {% if session.get('lang') == 'es' %}selected{% endif %}>Español</option>
+                            </select>
+                        </li>
                         <li class="nav-right">
                             <a href="/login">Login de Admin</a>
                         </li>
@@ -48,6 +62,12 @@
                 {% block content %}{% endblock %}
             </main>
         </div>
-
-    </div> </body>
+    </div> 
+    <script>
+        function changeLanguage() {
+            var lang = document.getElementById('lang_selector').value;
+            window.location.href = '/set_lang/' + lang;
+        }
+    </script>
+</body>
 </html>
