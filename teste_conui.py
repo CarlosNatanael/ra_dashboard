@@ -7,7 +7,7 @@ app = Flask(__name__)
 @app.route('/api/retroachievements/<username>')
 def get_achievements(username):
     try:
-        api_key = "sua_chave_aqui"
+        api_key = "Oy6GOQ5nOO3l8H3TkvFMw2QABo7Kw1Mn"
         url = f"https://retroachievements.org/API/API_GetUserSummary.php"
         params = {
             'z': username,
