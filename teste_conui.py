@@ -1,21 +1,33 @@
-# Exemplo para Vercel/Netlify function
+# teste_conexao.py
 import requests
-from flask import Flask, jsonify
+import socket
 
-app = Flask(__name__)
-
-@app.route('/api/retroachievements/<username>')
-def get_achievements(username):
+def testar_conexao():
+    print("=== Testes de Conexão ===")
+    
+    # Teste 1: DNS resolution
     try:
-        api_key = "Oy6GOQ5nOO3l8H3TkvFMw2QABo7Kw1Mn"
-        url = f"https://retroachievements.org/API/API_GetUserSummary.php"
-        params = {
-            'z': username,
-            'y': api_key,
-            'u': username
-        }
-        
-        response = requests.get(url, params=params, timeout=30)
-        return jsonify(response.json())
+        ip = socket.gethostbyname('retroachievements.org')
+        print(f"✓ DNS resolve: {ip}")
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        print(f"✗ DNS falhou: {e}")
+        return False
+    
+    # Teste 2: Conexão básica HTTP
+    try:
+        response = requests.get("http://retroachievements.org", timeout=10)
+        print(f"✓ HTTP funciona - Status: {response.status_code}")
+    except Exception as e:
+        print(f"✗ HTTP falhou: {e}")
+    
+    # Teste 3: Conexão HTTPS
+    try:
+        response = requests.get("https://retroachievements.org", timeout=10)
+        print(f"✓ HTTPS funciona - Status: {response.status_code}")
+        return True
+    except Exception as e:
+        print(f"✗ HTTPS falhou: {e}")
+        return False
+
+if __name__ == "__main__":
+    testar_conexao()
