@@ -1,33 +1,29 @@
-# teste_conexao.py
+# teste_http.py
 import requests
-import socket
 
-def testar_conexao():
-    print("=== Testes de Conexão ===")
+def testar_api_http():
+    print("=== Testando API via HTTP ===")
     
-    # Teste 1: DNS resolution
-    try:
-        ip = socket.gethostbyname('retroachievements.org')
-        print(f"✓ DNS resolve: {ip}")
-    except Exception as e:
-        print(f"✗ DNS falhou: {e}")
-        return False
+    # Tente forçar HTTP (pode não funcionar, mas vale tentar)
+    url = "http://retroachievements.org/API/API_GetUserSummary.php"
+    params = {
+        'z': 'SrLeo12',
+        'y': 'Oy6GOQ5nOO3l8H3TkvFMw2QABo7Kw1Mn',
+        'u': 'SrLeo12',
+        'g': '5',
+        'a': '5'
+    }
     
-    # Teste 2: Conexão básica HTTP
     try:
-        response = requests.get("http://retroachievements.org", timeout=10)
-        print(f"✓ HTTP funciona - Status: {response.status_code}")
+        response = requests.get(url, params=params, timeout=15)
+        print(f"Status: {response.status_code}")
+        if response.status_code == 200:
+            print("✓ Sucesso via HTTP!")
+            return response.text
+        else:
+            print(f"Resposta: {response.text[:200]}")
     except Exception as e:
-        print(f"✗ HTTP falhou: {e}")
-    
-    # Teste 3: Conexão HTTPS
-    try:
-        response = requests.get("https://retroachievements.org", timeout=10)
-        print(f"✓ HTTPS funciona - Status: {response.status_code}")
-        return True
-    except Exception as e:
-        print(f"✗ HTTPS falhou: {e}")
-        return False
+        print(f"✗ HTTP também falhou: {e}")
+        return None
 
-if __name__ == "__main__":
-    testar_conexao()
+testar_api_http()
