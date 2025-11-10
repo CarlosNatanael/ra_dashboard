@@ -1,0 +1,3 @@
+cd /home/CarlosNatanael/ra_dashboard/
+
+source /home/CarlosNatanael/.virtualenvs/dashboard/bin/activate
