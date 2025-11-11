@@ -97,7 +97,7 @@ def login():
             data = response.json()
             user_role = int(data.get('Role', 0))
             is_admin = False
-            if user_role >= 5:
+            if user_role >= 3:
                 is_admin = True
             if data['User'].lower() in AUTHORIZED_ADMINS:
                 is_admin = True
