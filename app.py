@@ -73,10 +73,10 @@ def login_required(view):
     @functools.wraps(view)
     def wrapped_view(**kwargs):
         if session.get('username') is None:
-            flash('Você precisa estar logado para ver esta página.', 'error')
+            flash('You need to be logged in to view this page.', 'error')
             return redirect(url_for('login'))
         if not session.get('is_admin'):
-            flash('Você não tem permissão para acessar esta página.', 'error')
+            flash('You do not have permission to access this page.', 'error')
             return redirect(url_for('index'))
         return view(**kwargs)
     return wrapped_view
@@ -102,18 +102,18 @@ def login():
             if data['User'].lower() in AUTHORIZED_ADMINS:
                 is_admin = True
             if not is_admin:
-                flash(f'Falha no login. Apenas Code Reviewers ou Admins autorizados podem logar.', 'error')
+                flash(f'Login failed. Only authorized Code Reviewers or Admins can log in.', 'error')
                 return render_template('login.html')
             session.clear()
             session['username'] = data['User']
             session['is_admin'] = True
             session['web_api_key'] = web_api_key
             
-            flash(f'Login bem-sucedido! Bem-vindo, {data["User"]}.', 'success')
+            flash(f'Login successful! Welcome,  {data["User"]}.', 'success')
             return redirect(url_for('admin_panel'))
             
         except requests.exceptions.RequestException as e:
-            flash(f'Falha no login. Verifique seu Username e API Key. (Erro: {e})', 'error')
+            flash(f'Login failed. Please check your Username and API Key. (Erro: {e})', 'error')
             
     return render_template('login.html')
 
@@ -121,7 +121,7 @@ def login():
 def logout():
     """Limpa a sessão e desloga o usuário."""
     session.clear()
-    flash('Você foi deslogado.', 'success')
+    flash('You have been logged out.', 'success')
     return redirect(url_for('index'))
 
 @app.route('/set_lang/<lang>')
