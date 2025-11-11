@@ -95,12 +95,15 @@ def login():
             response = requests.get(url_to_call)
             response.raise_for_status() 
             data = response.json()
-            user_role = int(data.get('Role', 0))
+
+            # user_role = int(data.get('Role', 0))
             is_admin = False
-            if user_role >= 3:
-                is_admin = True
+            # if user_role >= 3:
+                # is_admin = True
+
             if data['User'].lower() in AUTHORIZED_ADMINS:
                 is_admin = True
+                
             if not is_admin:
                 flash(f'Login failed. Only authorized Code Reviewers or Admins can log in.', 'error')
                 return render_template('login.html')
