@@ -63,7 +63,21 @@ def init_db_command():
 # --- Gerenciamento de login e autenticação ---
 
 AUTHORIZED_ADMINS = [
-    'srleo12'
+    'AaronDobbe'
+    'authorblues'
+    'cdpowe'
+    'Fridge'
+    'Homuki'
+    'KiwiTaco'
+    'Layton'
+    'Souzooka'
+    'suspect15'
+    'thatbard'
+    'TheJediSonic'
+    'Whithbrin'
+    'WiigDonRob'
+    'Yanbetari'
+    'CodeReviewTeam'
 ]
 
 # --- Gerenciamento de Login e Autenticação ---
@@ -92,18 +106,16 @@ def login():
         
         try:
             url_to_call = f"{RA_API_URL}/API_GetUserSummary.php?z={username}&y={web_api_key}&u={username}&g=5&a=5"
+            
             response = requests.get(url_to_call)
             response.raise_for_status() 
             data = response.json()
 
-            # user_role = int(data.get('Role', 0))
             is_admin = False
-            # if user_role >= 3:
-                # is_admin = True
 
             if data['User'].lower() in AUTHORIZED_ADMINS:
                 is_admin = True
-                
+
             if not is_admin:
                 flash(f'Login failed. Only authorized Code Reviewers or Admins can log in.', 'error')
                 return render_template('login.html')
