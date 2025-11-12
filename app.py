@@ -78,6 +78,7 @@ AUTHORIZED_ADMINS = [
     'WiigDonRob'
     'Yanbetari'
     'CodeReviewTeam'
+    'wescopeland'
 ]
 
 # --- Gerenciamento de Login e Autenticação ---
