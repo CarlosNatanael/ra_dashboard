@@ -63,6 +63,7 @@ def init_db_command():
 # --- Gerenciamento de login e autenticação ---
 
 AUTHORIZED_ADMINS = [
+    'SrLeo12'
     'AaronDobbe'
     'authorblues'
     'cdpowe'
@@ -112,9 +113,15 @@ def login():
             response.raise_for_status() 
             data = response.json()
 
+            user_role = int(data.get('Role', 0))
+            username_lower = data['User'].lower()
+
             is_admin = False
 
-            if data['User'].lower() in AUTHORIZED_ADMINS:
+            if user_role >=4:
+                is_admin = True
+
+            elif username_lower in AUTHORIZED_ADMINS:
                 is_admin = True
 
             if not is_admin:
