@@ -11,7 +11,9 @@ from flask_babel import Babel, _
 app = Flask(__name__)
 project_dir = os.path.dirname(os.path.abspath(__file__))
 DATABASE = os.path.join(project_dir, 'database.db')
-app.config['SECRET_KEY'] = 'Oy6GOQ5nOO3l8H3TkvFMw2QABo7Kw1Mn'
+
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', '2SuQ.z$0(d|F')
+RA_API_KEY = os.environ.get('RA_API_KEY') 
 RA_API_URL = "https://retroachievements.org/API"
 
 app.config['LANGUAGES'] = ['en', 'pt_BR', 'es']
@@ -60,28 +62,25 @@ def init_db():
 def init_db_command():
     init_db()
 
-# --- Gerenciamento de login e autenticação ---
-
 AUTHORIZED_ADMINS = [
-    'SrLeo12'
-    'AaronDobbe'
-    'authorblues'
-    'cdpowe'
-    'Fridge'
-    'Homuki'
-    'KiwiTaco'
-    'Layton'
-    'Souzooka'
-    'suspect15'
-    'thatbard'
-    'TheJediSonic'
-    'Whithbrin'
-    'WiigDonRob'
-    'Yanbetari'
-    'CodeReviewTeam'
+    'srleo12',
+    'aarondobbe',
+    'authorblues',
+    'cdpowe',
+    'fridge',
+    'homuki',
+    'kiwitaco',
+    'layton',
+    'souzooka',
+    'suspect15',
+    'thatbard',
+    'thejedisonic',
+    'whithbrin',
+    'wiigdonrob',
+    'yanbetari',
+    'codereviewteam',
     'wescopeland'
 ]
-
 # --- Gerenciamento de Login e Autenticação ---
 
 def login_required(view):
@@ -118,19 +117,18 @@ def login():
 
             is_admin = False
 
-            if user_role >=4:
+            if user_role >= 4:
                 is_admin = True
-
             elif username_lower in AUTHORIZED_ADMINS:
                 is_admin = True
 
             if not is_admin:
                 flash(f'Login failed. Only authorized Code Reviewers or Admins can log in.', 'error')
                 return render_template('login.html')
+
             session.clear()
             session['username'] = data['User']
             session['is_admin'] = True
-            session['web_api_key'] = web_api_key
             
             flash(f'Login successful! Welcome,  {data["User"]}.', 'success')
             return redirect(url_for('admin_panel'))
@@ -165,9 +163,11 @@ def api_get_game_name(game_id):
     """Pega o nome de um jogo da API do RA usando o ID."""
     try:
         username = session['username']
-        web_api_key = session['web_api_key']
+        
+        if not RA_API_KEY:
+            return jsonify({'error': 'API key do servidor não configurada'}), 500
 
-        url = f"{RA_API_URL}/API_GetGame.php?z={username}&y={web_api_key}&i={game_id}"
+        url = f"{RA_API_URL}/API_GetGame.php?z={username}&y={RA_API_KEY}&i={game_id}"
         
         response = requests.get(url)
         response.raise_for_status()
@@ -180,6 +180,8 @@ def api_get_game_name(game_id):
             
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
+# --- Rotas do Site Público ---
 
 @app.route('/history')
 def history():
@@ -221,8 +223,6 @@ def api_update_queue():
     queue_items = db.execute(query, params).fetchall()
     
     return render_template('_queue_table.html', queue=queue_items)
-
-# --- Rotas do Site Público ---
 
 @app.route('/')
 def index():
