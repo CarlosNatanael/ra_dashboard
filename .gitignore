@@ -12,6 +12,9 @@ database.db
 *.sqlite
 *.sqlite3
 
+# Ignorar arquivo de configuração local
+config.py
+
 # Distribution / packaging
 .Python
 build/
