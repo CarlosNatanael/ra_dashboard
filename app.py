@@ -7,13 +7,20 @@ from flask import (
     Flask, render_template, g, request, redirect, url_for, session, flash, jsonify
 )
 from flask_babel import Babel, _
+try:
+    import config
+    APP_SECRET_KEY = config.SECRET_KEY
+    RA_API_KEY = config.RA_API_KEY
+except ImportError:
+    print("AVISO: config.py não encontrado. Usando chaves de teste.")
+    APP_SECRET_KEY = '2SuQ.z$0(d|F'
+    RA_API_KEY = None
+# --------------------------------------------------------
 
 app = Flask(__name__)
 project_dir = os.path.dirname(os.path.abspath(__file__))
 DATABASE = os.path.join(project_dir, 'database.db')
-
-app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', '2SuQ.z$0(d|F')
-RA_API_KEY = os.environ.get('RA_API_KEY') 
+app.config['SECRET_KEY'] = APP_SECRET_KEY
 RA_API_URL = "https://retroachievements.org/API"
 
 app.config['LANGUAGES'] = ['en', 'pt_BR', 'es']
@@ -62,6 +69,7 @@ def init_db():
 def init_db_command():
     init_db()
 
+# --- Gerenciamento de login e autenticação ---
 AUTHORIZED_ADMINS = [
     'srleo12',
     'aarondobbe',
@@ -81,6 +89,7 @@ AUTHORIZED_ADMINS = [
     'codereviewteam',
     'wescopeland'
 ]
+
 # --- Gerenciamento de Login e Autenticação ---
 
 def login_required(view):
@@ -125,7 +134,7 @@ def login():
             if not is_admin:
                 flash(f'Login failed. Only authorized Code Reviewers or Admins can log in.', 'error')
                 return render_template('login.html')
-
+            
             session.clear()
             session['username'] = data['User']
             session['is_admin'] = True
@@ -166,7 +175,6 @@ def api_get_game_name(game_id):
         
         if not RA_API_KEY:
             return jsonify({'error': 'API key do servidor não configurada'}), 500
-
         url = f"{RA_API_URL}/API_GetGame.php?z={username}&y={RA_API_KEY}&i={game_id}"
         
         response = requests.get(url)
@@ -201,7 +209,6 @@ def status_page():
 @app.route('/api/update-queue')
 def api_update_queue():
     """Retorna APENAS o HTML do corpo da tabela da fila."""
-
     search_term = request.args.get('search', '')
     my_sets_filter = request.args.get('my_sets', '')
     
@@ -223,6 +230,7 @@ def api_update_queue():
     queue_items = db.execute(query, params).fetchall()
     
     return render_template('_queue_table.html', queue=queue_items)
+
 
 @app.route('/')
 def index():
@@ -286,7 +294,6 @@ def admin_add():
 @login_required 
 def admin_update(entry_id):
     """(Admin) Atualiza o status e (opcionalmente) o revisor."""
-    
     status = request.form['status']
     action = request.form['action']
     now_formatted = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
