@@ -1,43 +1,73 @@
-# Jr. Dev Queue Management - Requirements Document
+# Gerenciamento de Fila para Devs Jr. - Proposta de Evolução (v1.1)
 
-### 1. Objective
+## 1. Contexto e Objetivo
 
-O atual processo de revisão do Jr. Dev carece de visibilidade. Os desenvolvedores Jr. não conseguem ver o status de seus envios e os revisores de código (CRs) não possuem uma ferramenta simples para gerenciar a fila de entrada.     
+Para apoiar o crescimento da comunidade e otimizar o trabalho de todos, esta proposta visa evoluir o processo de revisão de código para Desenvolvedores Jr.
 
-Este recurso visa criar um dashboard centralizado, integrado ao RAWeb (nativamente via Filament/PHP), para resolver este problema para ambos os grupos.
+**Objetivo Principal:** Construir uma ferramenta centralizada e transparente dentro do RAWeb (via Filament/PHP) para dar mais visibilidade aos Jr. Devs sobre seus envios e agilizar o gerenciamento da fila para os Revisores.
 
-### 2. Target Audience
+*   **Para Jr. Devs:** Responder à pergunta: "Onde está minha submissão?".
+*   **Para Revisores (CRs):** Oferecer uma forma simples e eficiente de organizar e atualizar o andamento das revisões.
 
-1. **Public / Jr. Developers**: Need a read-only view to see the queue.
-2. **Code Reviewers (CRs)**: Need a simple admin panel to manage the queue.
-3. **Admins / Moderators**: Need oversight and full control over the panel and its users.
+## 2. Público-Alvo e Benefícios
 
-### 3. Core Features (Phase 1)
+1.  **Desenvolvedores Jr. (Público):**
+    *   **Benefício:** Transparência total. Poderão acompanhar o status de seus envios e ver a fila geral, reduzindo ansiedade e perguntas repetitivas.
 
-This describes the minimum viable product (MVP), based on the working Python prototype.
+2.  **Revisores de Código (CRs):**
+    *   **Benefício:** Eficiência operacional. Um painel unificado para reivindicar, filtrar e atualizar submissões, substituindo métodos manuais e potencialmente dispersos.
 
-**3. 1. Public-Facing Queue (A "Visão Pública")**
-A new public page on RAWeb (eg. `ra.org/reviews`) that is filterable and read-only.
-- Shows a table of all sets currently in review `<(status != 'Approved')>`.
-- Table Columns: `Game`, `Developer`, `Status`, `Claimed By`, `Last Updated`.
-Filters:
-   - A search box that filters by `Game` or `Developer`.
-   - A "My Sets" button (for logged-in Jr. Devs) to filter by their own username.
-   - A separate "History" page showing all sets with status 'Approved'.
+3.  **Administradores e Moderadores:**
+    *   **Benefício:** Controle e visibilidade macro. Acesso para gerenciar usuários e supervisionar todo o processo.
 
-**3.2. Admin Panel (A "Visão de Admin" no Filament)**
-A new section within the existing RAWeb Filament admin panel.
+## 3. Funcionalidades Propostas - Fase 1 (MVP)
 
-- **Authorization**: Access is granted based on a hybrid logic:
-1. **Automatic**: User has `Role >= 4` (Moderator or Admin).
-2. **Manual**: User is in a new `CodeReviewers` permissions list (to manually add CRs who might only have `Role = 3`).
+*Esta primeira fase (MVP) é baseada no protótipo Python que já está em uso, traduzindo sua funcionalidade para uma solução nativa e sustentável no RAWeb.*
 
-- **Features**: A table view of the same queue, but with management buttons:
-   - **Add New Set**: A form to add a new game to the queue (Fields: Game ID, Developer Username).
-   - **Claim Set**: A "Claim" button that assigns the CR's username to the entry.
-   - **Update Status**: A dropdown/button on each entry to change the `Status` (eg. 'Pending', 'In Review', 'Approved').
-   - **Delete Entry**: A button to remove the entry.
+### 3.1. Painel de Visão Pública
 
-### 4. Future Ideas (Phase 2)
-- **CR User Management**: A panel (visível apenas para `Role >= 4`) to add/remove users from the "Manual CR Access" list (de 3.2).
-- **Jr. Dev Submission Form**: A simple form for logged-in Jr. Devs to submit their own sets to the queue automatically.
+Uma nova página acessível a todos (ex: `ra.org/reviews`).
+
+*   **O que será mostrado:** Uma tabela com todos os conjuntos **em revisão** (status diferente de "Aprovado").
+*   **Colunas:**
+    *   `Jogo`
+    *   `Desenvolvedor`
+    *   `Status`
+    *   `Reivindicado Por`
+    *   `Última Atualização`
+*   **Filtros e Funcionalidades:**
+    *   Busca por `Jogo` ou `Desenvolvedor`.
+    *   Botão "Meus Conjuntos" (para Jr. Devs logados) que filtra automaticamente para mostrar apenas os envios daquela pessoa.
+    *   Link para uma página de "Histórico", mostrando todos os conjuntos já **Aprovados**.
+
+### 3.2. Painel de Controle para Revisores (no Admin Filament)
+
+Uma nova seção dentro do painel de administração existente do RAWeb.
+
+*   **Quem terá acesso? (Modelo Híbrido):**
+    *   **Acesso Automático:** Moderadores e Admins (``Role >= 4``).
+    *   **Acesso via Permissão:** Revisores que forem adicionados manualmente a uma nova lista de permissões `CodeReviewers` (ideal para CRs com ``Role = 3``).
+
+*   **Funcionalidades de Gerenciamento:**
+    *   **Adicionar Conjunto:** Formulário simples para incluir um novo jogo na fila manualmente (com `ID do Jogo` e `Usuário do Desenvolvedor`).
+    *   **Reivindicar:** Um botão para que um revisor "assine" uma revisão, associando seu nome à tarefa.
+    *   **Atualizar Status:** Um menu para alterar o estado da revisão (ex: 'Pendente', 'Em Revisão', 'Aprovado').
+    *   **Remover Entrada:** Para deletar um item da fila, se necessário.
+
+## 4. Ideias Futuras & Chamada para Colaboração
+
+A Fase 1 estabelece a base. O futuro da ferramenta, no entanto, pode ser moldado por quem a usa no dia a dia. Esta seção é um "backlog vivo" de ideias—e sua contribuição é fundamental!
+
+**Gostaríamos muito de ouvir a opinião de todos, especialmente dos Revisores: O que facilitaria ainda mais o seu fluxo de trabalho?**
+
+### Ideias em Discussão:
+
+*   **Gerenciamento de Revisores:** Um sub-painel para Admins gerenciarem a lista de Revisores com acesso manual.
+*   **Auto-Submissão:** Um formulário para Jr. Devs logados submeterem seus próprios conjuntos, eliminando a etapa manual de adição por um revisor.
+*   **Sistema de Notificações:** Alertas por e-mail ou no site para mudanças de status (ex: "Seu conjunto foi aprovado").
+*   **Múltiplas Filas:** Abas separadas para diferentes tipos de revisão (ex: "Revisões de Arte", "Revisões de Ticket").
+*   **Comentários Internos:** Um campo para que os revisores deixem notas privadas sobre uma submissão.
+*   **Métricas:** Um dashboard simples com tamanho da fila e tempo médio de revisão.
+
+---
+**Sua voz é importante!** Conte-nos o que você acha desta proposta e quais ideias você gostaria de acrescentar ou priorizar.
