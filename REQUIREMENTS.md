@@ -1,4 +1,4 @@
-## Jr. Dev Queue Management - Requirements Document
+# Jr. Dev Queue Management - Requirements Document
 
 ### 1. Objective
 
@@ -24,3 +24,20 @@ Filters:
    - A search box that filters by `Game` or `Developer`.
    - A "My Sets" button (for logged-in Jr. Devs) to filter by their own username.
    - A separate "History" page showing all sets with status 'Approved'.
+
+**3.2. Admin Panel (A "Visão de Admin" no Filament)**
+A new section within the existing RAWeb Filament admin panel.
+
+- **Authorization**: Access is granted based on a hybrid logic:
+   1. **Automatic**: User has `Role >= 4` (Moderator or Admin).
+   2. **Manual**: User is in a new `CodeReviewers` permissions list (to manually add CRs who might only have `Role = 3`).
+
+- **Features**: A table view of the same queue, but with management buttons:
+   - **Add New Set**: A form to add a new game to the queue (Fields: Game ID, Developer Username).
+   - **Claim Set**: A "Claim" button that assigns the CR's username to the entry.
+   - **Update Status**: A dropdown/button on each entry to change the `Status` (eg. 'Pending', 'In Review', 'Approved').
+   - **Delete Entry**: A button to remove the entry.
+
+### 4. Future Ideas (Phase 2)
+- **CR User Management**: A panel (visível apenas para `Role >= 4`) to add/remove users from the "Manual CR Access" list (de 3.2).
+- **Jr. Dev Submission Form**: A simple form for logged-in Jr. Devs to submit their own sets to the queue automatically.
