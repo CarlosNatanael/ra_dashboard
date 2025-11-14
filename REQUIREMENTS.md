@@ -29,8 +29,8 @@ Filters:
 A new section within the existing RAWeb Filament admin panel.
 
 - **Authorization**: Access is granted based on a hybrid logic:
-   1. **Automatic**: User has `Role >= 4` (Moderator or Admin).
-   2. **Manual**: User is in a new `CodeReviewers` permissions list (to manually add CRs who might only have `Role = 3`).
+1. **Automatic**: User has `Role >= 4` (Moderator or Admin).
+2. **Manual**: User is in a new `CodeReviewers` permissions list (to manually add CRs who might only have `Role = 3`).
 
 - **Features**: A table view of the same queue, but with management buttons:
    - **Add New Set**: A form to add a new game to the queue (Fields: Game ID, Developer Username).
