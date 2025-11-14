@@ -33,6 +33,7 @@ Uma nova página acessível a todos (ex: `ra.org/reviews`).
     *   `Jogo`
     *   `Desenvolvedor`
     *   `Status`
+    *   `Data de solicitação`
     *   `Reivindicado Por`
     *   `Última Atualização`
 *   **Filtros e Funcionalidades:**
