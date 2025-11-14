@@ -1,4 +1,4 @@
-# Gerenciamento de Fila para Devs Jr. - Proposta de Evolução (v1.1)
+# Gerenciamento de Fila para Devs Jr. - Proposta de Evolução
 
 ## 1. Contexto e Objetivo
 
@@ -58,16 +58,14 @@ Uma nova seção dentro do painel de administração existente do RAWeb.
 
 A Fase 1 estabelece a base. O futuro da ferramenta, no entanto, pode ser moldado por quem a usa no dia a dia. Esta seção é um "backlog vivo" de ideias—e sua contribuição é fundamental!
 
-**Gostaríamos muito de ouvir a opinião de todos, especialmente dos Revisores: O que facilitaria ainda mais o seu fluxo de trabalho?**
+**Gostaria muito de ouvir a opinião de todos: O que facilitaria ainda mais o seu fluxo de trabalho?**
 
 ### Ideias em Discussão:
 
 *   **Gerenciamento de Revisores:** Um sub-painel para Admins gerenciarem a lista de Revisores com acesso manual.
 *   **Auto-Submissão:** Um formulário para Jr. Devs logados submeterem seus próprios conjuntos, eliminando a etapa manual de adição por um revisor.
 *   **Sistema de Notificações:** Alertas por e-mail ou no site para mudanças de status (ex: "Seu conjunto foi aprovado").
-*   **Múltiplas Filas:** Abas separadas para diferentes tipos de revisão (ex: "Revisões de Arte", "Revisões de Ticket").
 *   **Comentários Internos:** Um campo para que os revisores deixem notas privadas sobre uma submissão.
 *   **Métricas:** Um dashboard simples com tamanho da fila e tempo médio de revisão.
 
 ---
-**Sua voz é importante!** Conte-nos o que você acha desta proposta e quais ideias você gostaria de acrescentar ou priorizar.
