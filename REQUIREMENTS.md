@@ -1,72 +1,72 @@
-# Gerenciamento de Fila para Devs Jr. - Proposta de Evolução
+# Jr. Dev Queue Management - Evolution Proposal
 
-## 1. Contexto e Objetivo
+## 1. Context and Objective
 
-Para apoiar o crescimento da comunidade e otimizar o trabalho de todos, esta proposta visa evoluir o processo de revisão de código para Desenvolvedores Jr.
+To support community growth and optimize everyone's workflow, this proposal aims to evolve the code review process for Jr. Developers.
 
-**Objetivo Principal:** Construir uma ferramenta centralizada e transparente dentro do RAWeb (via Filament/PHP) para dar mais visibilidade aos Jr. Devs sobre seus envios e agilizar o gerenciamento da fila para os Revisores.
+**Main Objective:** To build a centralized and transparent tool within RAWeb (via Filament/PHP) to give Jr. Devs more visibility into their submissions and streamline queue management for Reviewers.
 
-*   **Para Jr. Devs:** Responder à pergunta: "Onde está minha submissão?".
-*   **Para Revisores (CRs):** Oferecer uma forma simples e eficiente de organizar e atualizar o andamento das revisões.
+* **For Jr. Devs:** Answer the question: "Where is my submission?".
+* **For Reviewers (CRs):** Provide a simple and efficient way to organize and update the progress of reviews.
 
-## 2. Público-Alvo e Benefícios
+## 2. Target Audience and Benefits
 
-1.  **Desenvolvedores Jr. (Público):**
-    *   **Benefício:** Transparência total. Poderão acompanhar o status de seus envios e ver a fila geral, reduzindo ansiedade e perguntas repetitivas.
+1.  **Jr. Developers (Public):**
+    * **Benefit:** Full transparency. They will be able to track the status of their submissions and see the general queue, reducing anxiety and repetitive questions.
 
-2.  **Revisores de Código (CRs):**
-    *   **Benefício:** Eficiência operacional. Um painel unificado para reivindicar, filtrar e atualizar submissões, substituindo métodos manuais e potencialmente dispersos.
+2.  **Code Reviewers (CRs):**
+    * **Benefit:** Operational efficiency. A unified dashboard to claim, filter, and update submissions, replacing manual and potentially scattered methods.
 
-3.  **Administradores e Moderadores:**
-    *   **Benefício:** Controle e visibilidade macro. Acesso para gerenciar usuários e supervisionar todo o processo.
+3.  **Administrators and Moderators:**
+    * **Benefit:** Macro control and visibility. Access to manage users and oversee the entire process.
 
-## 3. Funcionalidades Propostas - Fase 1 (MVP)
+## 3. Proposed Features - Phase 1 (MVP)
 
-*Esta primeira fase (MVP) é baseada no protótipo Python que já está em uso, traduzindo sua funcionalidade para uma solução nativa e sustentável no RAWeb.*
+*This first phase (MVP) is based on the Python prototype already in use, translating its functionality into a native and sustainable solution on RAWeb.*
 
-### 3.1. Painel de Visão Pública
+### 3.1. Public View Dashboard
 
-Uma nova página acessível a todos (ex: `ra.org/reviews`).
+A new page accessible to everyone (e.g., `ra.org/reviews`).
 
-*   **O que será mostrado:** Uma tabela com todos os conjuntos **em revisão** (status diferente de "Aprovado").
-*   **Colunas:**
-    *   `Jogo`
-    *   `Desenvolvedor`
-    *   `Status`
-    *   `Data de solicitação`
-    *   `Reivindicado Por`
-    *   `Última Atualização`
-*   **Filtros e Funcionalidades:**
-    *   Busca por `Jogo` ou `Desenvolvedor`.
-    *   Botão "Meus Conjuntos" (para Jr. Devs logados) que filtra automaticamente para mostrar apenas os envios daquela pessoa.
-    *   Link para uma página de "Histórico", mostrando todos os conjuntos já **Aprovados**.
+* **What it will show:** A table with all sets **under review** (status other than "Approved").
+* **Columns:**
+    * `Game`
+    * `Developer`
+    * `Status`
+    * `Request Date`
+    * `Claimed By`
+    * `Last Update`
+* **Filters and Features:**
+    * Search by `Game` or `Developer`.
+    * "My Sets" button (for logged-in Jr. Devs) that automatically filters to show only that person's submissions.
+    * Link to a "History" page, showing all sets already **Approved**.
 
-### 3.2. Painel de Controle para Revisores (no Admin Filament)
+### 3.2. Control Panel for Reviewers (in Filament Admin)
 
-Uma nova seção dentro do painel de administração existente do RAWeb.
+A new section within the existing RAWeb admin panel.
 
-*   **Quem terá acesso? (Modelo Híbrido):**
-    *   **Acesso Automático:** Moderadores e Admins (``Role >= 4``).
-    *   **Acesso via Permissão:** Revisores que forem adicionados manualmente a uma nova lista de permissões `CodeReviewers` (ideal para CRs com ``Role = 3``).
+* **Who will have access? (Hybrid Model):**
+    * **Automatic Access:** Moderators and Admins (``Role >= 4``).
+    * **Permission-Based Access:** Reviewers who are manually added to a new `CodeReviewers` permission list (ideal for CRs with ``Role = 3``).
 
-*   **Funcionalidades de Gerenciamento:**
-    *   **Adicionar Conjunto:** Formulário simples para incluir um novo jogo na fila manualmente (com `ID do Jogo` e `Usuário do Desenvolvedor`).
-    *   **Reivindicar:** Um botão para que um revisor "assine" uma revisão, associando seu nome à tarefa.
-    *   **Atualizar Status:** Um menu para alterar o estado da revisão (ex: 'Pendente', 'Em Revisão', 'Aprovado').
-    *   **Remover Entrada:** Para deletar um item da fila, se necessário.
+* **Management Features:**
+    * **Add Set:** Simple form to manually add a new game to the queue (with `Game ID` and `Developer User`).
+    * **Claim:** A button for a reviewer to "sign up" for a review, associating their name with the task.
+    * **Update Status:** A menu to change the review's state (e.g., 'Pending', 'In Review', 'Approved').
+    * **Remove Entry:** To delete an item from the queue, if necessary.
 
-## 4. Ideias Futuras & Chamada para Colaboração
+## 4. Future Ideas & Call for Collaboration
 
-A Fase 1 estabelece a base. O futuro da ferramenta, no entanto, pode ser moldado por quem a usa no dia a dia. Esta seção é um "backlog vivo" de ideias—e sua contribuição é fundamental!
+Phase 1 lays the foundation. The tool's future, however, can be shaped by those who use it daily. This section is a "living backlog" of ideas—and your contribution is essential!
 
-**Gostaria muito de ouvir a opinião de todos: O que facilitaria ainda mais o seu fluxo de trabalho?**
+**I would love to hear everyone's opinion: What would make your workflow even easier?**
 
-### Ideias em Discussão:
+### Ideas Under Discussion:
 
-*   **Gerenciamento de Revisores:** Um sub-painel para Admins gerenciarem a lista de Revisores com acesso manual.
-*   **Auto-Submissão:** Um formulário para Jr. Devs logados submeterem seus próprios conjuntos, eliminando a etapa manual de adição por um revisor.
-*   **Sistema de Notificações:** Alertas por e-mail ou no site para mudanças de status (ex: "Seu conjunto foi aprovado").
-*   **Comentários Internos:** Um campo para que os revisores deixem notas privadas sobre uma submissão.
-*   **Métricas:** Um dashboard simples com tamanho da fila e tempo médio de revisão.
+* **Reviewer Management:** A sub-panel for Admins to manage the list of manually-added Reviewers.
+* **Self-Submission:** A form for logged-in Jr. Devs to submit their own sets, eliminating the manual addition step by a reviewer.
+* **Notification System:** Email or site alerts for status changes (e.g., "Your set has been approved").
+* **Internal Comments:** A field for reviewers to leave private notes on a submission.
+* **Metrics:** A simple dashboard with queue size and average review time.
 
 ---
